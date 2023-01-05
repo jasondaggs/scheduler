@@ -1,26 +1,27 @@
 package com.electrodna.services
 
-import arrow.core.Some
-import arrow.core.Option
-import arrow.core.Either
+import arrow.core.*
+import com.electrodna.ApiException
+import com.electrodna.ScheduleNotFound
 import com.electrodna.models.Schedule
+import com.electrodna.repositories.ScheduleRepository
 import org.springframework.stereotype.Service
-import java.util.*
-
+import java.util.UUID
 
 @Service
-class ScheduleService {
+class ScheduleService ( val scheduleRepository : ScheduleRepository ){
+    fun fetch(id: UUID) : Either<ApiException,Schedule> =
+        scheduleRepository
+            .findById(id)
+            .let {
+                return if (it.isPresent)
+                    Either.Right(it.get())
+                else
+                    Either.Left(ScheduleNotFound(id))
+            }
+    fun saveOrUpdate(schedule: Schedule) : Either<ApiException,Schedule> =
+        Either.Right(scheduleRepository.save(schedule))
 
-    fun fetch(id: UUID) : Either<Throwable,Option<Schedule>> {
-        return Either.Right(Some(Schedule(id, "bill")))
-    }
-
-    fun create(schedule: Schedule): Result<Boolean> {
-        return Result.success(true)
-    }
-
-    fun update(schedule: Schedule) {}
-
-    fun delete(schedule: Schedule) {}
+    fun delete(schedule: Schedule) = scheduleRepository.delete(schedule);
 
 }
