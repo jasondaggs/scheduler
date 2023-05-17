@@ -5,6 +5,11 @@ fun <T> String.query(vararg parameterValues: Any) : Query<T>
     return Query(this,listOf<Column<T>>())
 }
 
+infix fun <T> String.column(columnDef: String) : Query<T>
+{
+    return Query(this,listOf<Column<T>>())
+}
+
 fun <T> String.query(columns: List<Column<T>>) : Query<T>
 {
     return Query<T>(this,columns)

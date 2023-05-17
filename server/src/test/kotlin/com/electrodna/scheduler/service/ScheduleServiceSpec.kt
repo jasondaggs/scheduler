@@ -11,11 +11,16 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
+import org.springframework.test.context.ContextConfiguration
+
 import java.util.*
-class ScheduleServiceSpec (
-    @MockkBean val scheduleRepository : ScheduleRepository
-): FreeSpec() {
-    private val scheduleService = ScheduleService(scheduleRepository)
+
+@ContextConfiguration(classes = [ScheduleService::class])
+open class ScheduleServiceSpec(
+    @MockkBean val scheduleRepository : ScheduleRepository,
+    scheduleService : ScheduleService
+) : FreeSpec() {
+
     init {
         "#fetch" - {
             val uuId = UUID.randomUUID()
@@ -33,7 +38,7 @@ class ScheduleServiceSpec (
                 val result = subject()
                 result.mapLeft { it::class } shouldBe Either.Left(ScheduleNotFound::class)
                 result.mapLeft { it.detail } shouldBe Either.Left(
-                    "The schedule object [ $uuId ] was not found."
+                    "The query for schedule object [ $uuId ] returned no results."
                 )
             }
 

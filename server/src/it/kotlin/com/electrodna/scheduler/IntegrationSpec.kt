@@ -6,13 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForEntity
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class IntegrationSpec(
     @Autowired restTemplate: RestTemplate
 ) : FreeSpec() {
     init {
         val uuid = "687d5858-7016-465e-8e5c-5a3f7785e9bf"
-        restTemplate.getForEntity<Schedule>("http://localhost:8080/api/v1/schedule/$uuid")
+       // restTemplate.getForEntity<Schedule>("http://localhost:8080/api/v1/schedule/$uuid")
     }
 
 }

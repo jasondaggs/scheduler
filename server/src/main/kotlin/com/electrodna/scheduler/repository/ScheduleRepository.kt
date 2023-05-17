@@ -11,18 +11,18 @@ import java.util.UUID
 
 @Repository
 interface ScheduleRepository : CrudRepository<Schedule, UUID> {
-    @Transactional
-    fun loadTaskForSchedule(id: UUID) : List<Task>
-    {
-        return """
-            select 
-                *
-            from 
-                tasks t
-            where 
-                t.id = @id
-        """.trimIndent()
-            .query<Task>(Column("id",id))
-            .execute()
-    }
+//    @Transactional
+//    fun loadTaskForSchedule(id: UUID) : List<Task>
+//    {
+//        return """
+//            select
+//                *
+//            from
+//                tasks t
+//            where
+//                t.id = @id
+//        """.trimIndent()
+//            .query<Task>(Column("id",id))
+//            .execute()
+//    }
 }
